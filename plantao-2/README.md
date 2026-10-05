@@ -262,9 +262,20 @@ public class ProdutosController : ControllerBase
     public ProdutosController(IProdutoService service) { _service = service; }
 
     [HttpGet]
-    public ActionResult<List<Produto>> Listar()
+    public ActionResult<List<Produto>> Listar([FromQuery] string? nome)
     {
-        return Ok(_service.Listar());
+        var produtos = _service.Listar();
+        if (string.IsNullOrWhiteSpace(nome))
+        {
+            return Ok(produtos);
+        }
+
+        var filtrados = produtos
+            .Where(produto => produto.Nome.Contains(
+                nome.Trim(), StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        return Ok(filtrados);
     }
 
     [HttpGet("{id:int}")]

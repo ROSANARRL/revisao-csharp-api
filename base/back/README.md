@@ -31,6 +31,6 @@ Se necessário, instale a ferramenta com `dotnet tool install --global dotnet-ef
 
 Swagger: `http://localhost:5027/swagger`. A atualização cria `revisao.db` usando a migration incluída. Execute os comandos nesta pasta para usar o mesmo arquivo SQLite.
 
-[Conteúdo da parte 2](../../plantao-2/README.md) · [Versão em memória da parte 1](../plantao-1/README.md)
+[Conteúdo da parte 2](../../plantao-2/README.md) · [Exemplo em memória da parte 1](../../plantao-1/README.md)
 
 [Angular conectado a esta API](../front/README.md)

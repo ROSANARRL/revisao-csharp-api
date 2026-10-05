@@ -2,15 +2,15 @@
 
 ### Ler o projeto, modelar produtos, validar os campos, cadastrar e consultar com GET/POST
 
-Vamos construir os primeiros endpoints da nossa API, retomando C#, HTTP e modelagem. O exemplo completo está em [base/plantao-1](../base/plantao-1/README.md). Vamos criar o model Produto, suas validações e os endpoints de listagem, busca por ID e cadastro.
+Vamos construir os primeiros endpoints da nossa API, retomando C#, HTTP e modelagem. Os exemplos abaixo mostram a versão em memória, com model, validações, consultas e cadastro. A [base atual](../base/back/README.md) já contém a evolução da parte 2, com SQLite e camadas.
 
 ## Arquivos do exemplo
 
-| Arquivo                                                                      | Conteúdo                               |
-| ---------------------------------------------------------------------------- | -------------------------------------- |
-| [Produto.cs](../base/plantao-1/Models/Produto.cs)                            | Model e validação                      |
-| [ProdutosController.cs](../base/plantao-1/Controllers/ProdutosController.cs) | Lista em memória, consultas e cadastro |
-| [Program.cs](../base/plantao-1/Program.cs)                                   | Configuração da API                    |
+| Arquivo                                                                 | Conteúdo                                   |
+| ----------------------------------------------------------------------- | ------------------------------------------ |
+| [Produto.cs](../base/back/Models/Produto.cs)                            | Model e validação                          |
+| [ProdutosController.cs](../base/back/Controllers/ProdutosController.cs) | Consultas e cadastro na versão com camadas |
+| [Program.cs](../base/back/Program.cs)                                   | Configuração da API atual                  |
 
 ## 1. Base da API e HTTP
 
@@ -19,10 +19,11 @@ Pasta: `base/back`
 ```powershell
 dotnet restore
 dotnet build
+dotnet ef database update
 dotnet run --launch-profile http
 ```
 
-Abra `http://localhost:5026/swagger`. O exemplo já inclui listagem, busca por ID e cadastro.
+Abra `http://localhost:5027/swagger`. A base inclui listagem, filtro por nome, busca por ID e cadastro, além de atualização e exclusão da parte 2. `dotnet ef database update` prepara o SQLite dessa versão; a ferramenta `dotnet-ef` 8.0.20 é necessária, conforme o [README da base](../base/back/README.md).
 
 O Swagger envia requisições para nossa API e mostra as respostas. Usaremos HTTP para essa comunicação e JSON para representar os dados.
 
@@ -158,6 +159,8 @@ Esses atributos são as Data Annotations. Com `[ApiController]`, a API responde 
 
 Arquivo: `base/back/Controllers/ProdutosController.cs`
 
+O código abaixo representa o Controller da primeira parte, em memória. No arquivo da base, as operações usam Service e Repository para acessar o SQLite.
+
 ```csharp
 using Microsoft.AspNetCore.Mvc;
 using RevisaoProdutos.Models;
@@ -287,7 +290,7 @@ No Swagger:
 
 O corpo da resposta 400 informa quais campos falharam. Consulte a lista para confirmar que o produto inválido não foi cadastrado. Essa validação usa os atributos do model e `[ApiController]`.
 
-Encerre e reinicie a API: a lista fica vazia porque seus dados estavam na memória do processo. Na Parte 2, compararemos esse comportamento com o SQLite.
+Na versão em memória apresentada acima, encerrar e reiniciar a API apaga a lista. Na base atual, os cadastros permanecem porque são salvos no SQLite, como explicado na Parte 2.
 
 ## 5. O caminho de uma requisição e o registro das alterações
 
@@ -317,7 +320,7 @@ Cadastre dois produtos válidos com nomes diferentes. Prepare uma tabela com mé
 
 Em uma busca por ID, identifique o dado enviado na rota. Em uma listagem filtrada, identifique o dado enviado na query. Em um cadastro válido, identifique os headers, o body e o `Location` retornado. Explique por que o filtro sem resultados recebe 200, enquanto a busca de um ID inexistente recebe 404.
 
-Confirme que nenhum cadastro inválido aparece na lista. Depois, reinicie a API e explique por que os produtos sumiram. Você pode usar um arquivo Markdown para registrar os resultados.
+Confirme que nenhum cadastro inválido aparece na lista. Depois, reinicie a API e registre o que aconteceu com os produtos. Explique a diferença entre a versão em memória e a base atual com SQLite. Você pode usar um arquivo Markdown para registrar os resultados.
 
 Se uma validação estiver faltando, ajuste o model e faça um novo teste. Apresente um exemplo válido, um inválido e o trecho responsável pela resposta. Traga suas dúvidas para o segundo encontro.
 
