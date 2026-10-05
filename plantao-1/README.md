@@ -1,6 +1,16 @@
 # Parte 1: C#, HTTP e produtos em memória
 
-Vamos criar uma API para cadastrar e consultar produtos. A base já inicia a aplicação e abre o Swagger; o model, as validações e os endpoints serão construídos ao longo deste guia.
+### Ler o projeto, modelar produtos, validar os campos, cadastrar e consultar com GET/POST
+
+Vamos construir os primeiros endpoints da nossa API, retomando C#, HTTP e modelagem. O exemplo completo está em [base/plantao-1](../base/plantao-1/README.md). Vamos criar o model Produto, suas validações e os endpoints de listagem, busca por ID e cadastro.
+
+## Arquivos do exemplo
+
+| Arquivo                                                                      | Conteúdo                               |
+| ---------------------------------------------------------------------------- | -------------------------------------- |
+| [Produto.cs](../base/plantao-1/Models/Produto.cs)                            | Model e validação                      |
+| [ProdutosController.cs](../base/plantao-1/Controllers/ProdutosController.cs) | Lista em memória, consultas e cadastro |
+| [Program.cs](../base/plantao-1/Program.cs)                                   | Configuração da API                    |
 
 ## 1. Base da API e HTTP
 
@@ -12,7 +22,7 @@ dotnet build
 dotnet run --launch-profile http
 ```
 
-Abra `http://localhost:5027/swagger`. Como ainda não há endpoints, o Swagger mostra `No operations defined in spec!`.
+Abra `http://localhost:5026/swagger`. O exemplo já inclui listagem, busca por ID e cadastro.
 
 O Swagger envia requisições para nossa API e mostra as respostas. Usaremos HTTP para essa comunicação e JSON para representar os dados.
 
